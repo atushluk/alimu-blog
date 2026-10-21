@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="theme-color" content="#0a6b6b">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Survival analysis for product scientists — Alimu Mijiti</title>
+  <meta name="description" content="Why Cox and AFT beat naive retention curves for user value—and how PMs should interpret the output.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="page-article">
+  <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+    <div class="header-inner">
+      <div class="site-brand">
+        <p class="site-title"><a href="../index.html">Alimu Mijiti</a></p>
+        <p class="site-tagline">Data science · safety · accessibility · integrity</p>
+      </div>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="../index.html">Writing</a>
+        <a href="../about.html">About</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main">
+    <a class="back-link" href="../index.html">← All essays</a>
+    <div class="article-wrap">
+      <article class="prose">
+        <p class="post-meta">October 2026 · ~11 min read · Product ML · Statistics</p>
+        <h1>Survival analysis for product scientists: Cox, AFT, and what churn models miss</h1>
+        <p class="subtitle">If your “user value model” is a single XGBoost on 30-day revenue, you are baking optimism into every roadmap slide.</p>
+
+        <p>Product leaders ask for one number: <em>who is valuable?</em> Data scientists often answer with a regression on short windows because it ships fast. That answer is seductive and frequently wrong—because most of your users are still alive in the dataset when you train.</p>
+
+        <p class="opinion"><strong>Censoring is not missing data you can impute away.</strong> It is the defining structure of consumer products. Survival analysis is not academic ornament; it is the difference between ranking users you will still have next quarter and ranking users who merely looked good for three weeks.</p>
+
+        <h2 id="cohort-trap">The cohort chart trap</h2>
+        <p class="opinion">Week-4 retention curves are excellent storytelling and weak science for forward decisions. They treat every active user as if their story ended on the chart’s right edge.</p>
+        <p>Right-censored users—still active at extract time—are the majority in growing products. Label them as “not churned” and your model learns that signing up yesterday predicts immortality. Finance and growth then bake that bias into LTV and payback models.</p>
+
+        <h2 id="four-methods">Four methods teams actually compare (and when each wins)</h2>
+        <table>
+          <thead>
+            <tr><th>Method</th><th>What it estimates</th><th>Censoring</th><th>PM-friendly?</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Retention × ARPU curve</td><td>Expected revenue path</td><td>Handled ad hoc</td><td>Yes—if curves are honest</td></tr>
+            <tr><td>Cox proportional hazards</td><td>Instantaneous churn hazard h(t|X)</td><td>Native</td><td>Via hazard ratios</td></tr>
+            <tr><td>XGBoost regression</td><td>Direct revenue in window</td><td>Usually wrong</td><td>Yes—and misleading</td></tr>
+            <tr><td>XGBoost AFT</td><td>Time-to-event with intervals</td><td>Native (interval labels)</td><td>Via “+N days” framing</td></tr>
+          </tbody>
+        </table>
+        <p>The healthy default is not to pick the winner in a notebook—it is to <strong>document tradeoffs in a decision memo</strong> so PMs know what the score <em>means</em>.</p>
+
+        <h2 id="cox">Cox: when interpretability matters under stress</h2>
+        <p>Cox models shine in executive reviews: “Feature X is associated with 0.85× hazard of churn, holding covariates fixed.” That language connects to experiments and policy changes.</p>
+        <p>What to watch for:</p>
+        <ul>
+          <li><strong>Proportional hazards violations</strong>—early hype cohorts vs steady state. Fix with stratification or time-varying coefficients, not denial.</li>
+          <li><strong>Dollar translation</strong>—Cox gives time, not revenue. Link to a separate monetization model transparently.</li>
+        </ul>
+
+        <h2 id="aft">AFT: when PMs need “+12 days of active life”</h2>
+        <p>Accelerated failure time models with gradient boosting backends predict how covariates stretch or compress survival time. PMs grasp “this segment lives twelve days longer on median” faster than hazard ratios.</p>
+        <p>Use interval-censored labels when exact churn time is unknown—common in monthly reporting cycles. Skipping that step is how teams smuggle false precision into “ML LTV.”</p>
+
+        <h2 id="xgboost-trap">The XGBoost regression trap</h2>
+        <div class="callout">
+          <strong>Strong view:</strong> A single regressor on cumulative revenue without censoring-aware labels optimizes for whales who churned late in-window and undervalues users still climbing. It is the most common “user value model” in tech—and the one worth pushing back on hardest in review.
+        </div>
+        <p>If you must use gradient boosting on dollars, engineer labels with explicit censoring rules and holdout users registered <em>after</em> the feature window. Still compare against survival baselines in the same doc.</p>
+
+        <h2 id="value-link">Linking survival to “value” without moral hazard</h2>
+        <p>Multiplying ARPU by survival probability to get “expected value” is algebra, not ethics. If the score feeds surface ranking, ask whether you are optimizing extraction or sustained participation. Separate:</p>
+        <ul>
+          <li><strong>Survival</strong> — will the user remain addressable?</li>
+          <li><strong>Intensity</strong> — conditional on staying, are they better off?</li>
+        </ul>
+        <p>Public-interest platforms should document which downstream teams consume the score—growth, integrity, wellbeing—not only monetization.</p>
+
+        <div class="pm-checklist">
+          <h3>For PMs — before trusting a score</h3>
+          <ul>
+            <li>What event defines “churn” for this model—dormancy, delete, uninstall?</li>
+            <li>Are active users at extract time handled correctly?</li>
+            <li>Can you explain the top three features without opening Python?</li>
+            <li>Does the model change when you shift signup month (leakage check)?</li>
+          </ul>
+        </div>
+
+        <h2 id="takeaway">Takeaway</h2>
+        <p>Sustainable user value requires time-aware math. Cox and AFT are older than your feature store—and that is why they still earn trust with economists, policy partners, and senior PMs who have been burned by pretty regression plots. Compare methods openly; ship the one that matches the decision, not the one that matches the sprint deadline.</p>
+
+        <p class="note">Independent industry essay—not a description of any company’s products. Related: <a href="03-bot-reinstall-taxonomy.html">Platform integrity taxonomy</a>.</p>
+      </article>
+      <aside class="toc" aria-label="Table of contents">
+        <h2>On this page</h2>
+        <ol>
+          <li><a href="#cohort-trap">Cohort trap</a></li>
+          <li><a href="#four-methods">Four methods</a></li>
+          <li><a href="#cox">Cox</a></li>
+          <li><a href="#aft">AFT</a></li>
+          <li><a href="#xgboost-trap">XGBoost trap</a></li>
+          <li><a href="#takeaway">Takeaway</a></li>
+        </ol>
+      </aside>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>Independent writing · Views are my own</p>
+    <p><a href="../index.html">← All essays</a></p>
+  </footer>
+</body>
+</html>

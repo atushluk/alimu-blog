@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="theme-color" content="#0a6b6b">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shadow mode and shipping trust — Alimu Mijiti</title>
+  <meta name="description" content="How to deploy integrity and safety models without burning user trust on false positives.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="page-article">
+  <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+    <div class="header-inner">
+      <div class="site-brand">
+        <p class="site-title"><a href="../index.html">Alimu Mijiti</a></p>
+        <p class="site-tagline">Data science · safety · accessibility · integrity</p>
+      </div>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="../index.html">Writing</a>
+        <a href="../about.html">About</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main">
+    <a class="back-link" href="../index.html">← All essays</a>
+    <div class="article-wrap">
+      <article class="prose">
+        <p class="post-meta">October 2026 · ~11 min read · MLOps · Trust &amp; safety</p>
+        <h1>Shadow mode, guardrails, and shipping trust-sensitive models</h1>
+        <p class="subtitle">Offline AUC is the opening act. Production is a contract with users—and appeals teams.</p>
+
+        <p>Integrity models touch accounts, payments, and speech. Shipping them like a recommender ranker—big bang, metric watch for a week—is how platforms learn painful lessons about false positives. Trust-sensitive ML deserves <strong>graduated deployment</strong> with explicit precision budgets.</p>
+
+        <h2 id="shadow">Shadow mode is not optional theater</h2>
+        <p>In shadow, you score live traffic, take **no automated action**, and compare to:</p>
+        <ul>
+          <li>Current production rules.</li>
+          <li>Human review samples.</li>
+          <li>Historical abuse campaigns you wish you had caught earlier.</li>
+        </ul>
+        <p class="opinion">The only shadow metric worth a go/no-go: counterfactual precision on <strong>protected cohorts</strong> (aged accounts, paying users)—not overall volume flagged.</p>
+
+        <h2 id="lanes">Action lanes (document in the PRD)</h2>
+        <table>
+          <thead>
+            <tr><th>Lane</th><th>Precision bar</th><th>Example action</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>L0 Observe</td><td>N/A</td><td>Log scores only</td></tr>
+            <tr><td>L1 Soft friction</td><td>Very high</td><td>Rate limit, CAPTCHA</td></tr>
+            <tr><td>L2 Review queue</td><td>High recall OK</td><td>Human adjudication</td></tr>
+            <tr><td>L3 Enforcement</td><td>Extreme</td><td>Ban, demonetize (policy-gated)</td></tr>
+          </tbody>
+        </table>
+        <p>Never jump L0 → L3 because a exec asked for “more aggressive bots week.”</p>
+
+        <h2 id="monitor">Monitoring that catches humane failures</h2>
+        <ul>
+          <li>Score distribution drift by locale and client version.</li>
+          <li>Support ticket topics tagged to model version IDs.</li>
+          <li>Canary cohorts with automatic rollback hooks.</li>
+        </ul>
+
+        <h2 id="owners">Owners PMs should name on day one</h2>
+        <p>DS owns calibration; Trust &amp; Safety owns policy mapping; Legal owns disclosure obligations. Weekly false-positive triage is unglamorous—it is also the job.</p>
+
+        <div class="callout">
+          <strong>Production DS test:</strong> Can you explain your last rollback in one sentence to a PM without saying “the model was wrong”? If not, your observability is lacking.
+        </div>
+
+        <p class="note">Independent industry essay—not a description of any company’s products. Related: <a href="03-bot-reinstall-taxonomy.html">Bot vs reinstall taxonomy</a>.</p>
+      </article>
+      <aside class="toc" aria-label="Table of contents">
+        <h2>On this page</h2>
+        <ol>
+          <li><a href="#shadow">Shadow mode</a></li>
+          <li><a href="#lanes">Action lanes</a></li>
+          <li><a href="#monitor">Monitoring</a></li>
+        </ol>
+      </aside>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>Independent writing · Views are my own</p>
+    <p><a href="../index.html">← All essays</a></p>
+  </footer>
+</body>
+</html>

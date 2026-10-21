@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="theme-color" content="#0a6b6b">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Parental consent funnels — Alimu Mijiti</title>
+  <meta name="description" content="How data scientists should measure state teen-privacy consent flows that Legal can defend.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="page-article">
+  <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+    <div class="header-inner">
+      <div class="site-brand">
+        <p class="site-title"><a href="../index.html">Alimu Mijiti</a></p>
+        <p class="site-tagline">Data science · safety · accessibility · integrity</p>
+      </div>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="../index.html">Writing</a>
+        <a href="../about.html">About</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main">
+    <a class="back-link" href="../index.html">← All essays</a>
+    <div class="article-wrap">
+      <article class="prose">
+        <p class="post-meta">October 2026 · ~10 min read · Privacy · Compliance product</p>
+        <h1>Designing parental consent funnels under state teen-privacy laws</h1>
+        <p class="subtitle">Compliance is not a banner. It is a state machine families can finish on a Tuesday night.</p>
+
+        <p>State teen-privacy laws turned “get parent permission” from a COPPA checkbox into dozens of variants of timing, deletion, and proof. Lawyers interpret statutes; engineers ship account states. Data scientists sit in the middle—and if your funnel metrics are vague, you will discover gaps only when regulators or parents do.</p>
+
+        <p>Many consent programs discover that <strong>email-only requests fail real families</strong>: teens without a parent’s address, parents who ignore unknown senders. Share-via-link, SMS, and in-app resend are not marketing polish—they are <strong>completion-rate engineering</strong> for statutory obligations.</p>
+
+        <h2 id="state-machine">Think in states, not screens</h2>
+        <p class="opinion">Every consent PRD should open with a finite state machine, not mockups. Screens are implementations; states are what auditors and DS dashboards must agree on.</p>
+        <ul>
+          <li>Notice shown → consent requested → pending → granted / denied</li>
+          <li>Timer-driven deletion scheduled → executed</li>
+          <li>Each transition logged with <code>jurisdiction_code</code> and <code>rule_version</code></li>
+        </ul>
+
+        <h2 id="metrics">Metrics Legal and PM can both cite</h2>
+        <table>
+          <thead>
+            <tr><th>Metric</th><th>Definition</th><th>Not this</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Completion rate</td><td>Granted / eligible requests in window</td><td>Teen DAU</td></tr>
+            <tr><td>Median time-to-consent</td><td>Request → verified grant</td><td>App store rating</td></tr>
+            <tr><td>Step drop-off</td><td>Per state, per channel</td><td>“Engagement”</td></tr>
+            <tr><td>Deletion executed</td><td>Timer expired, account removed</td><td>Churn KPI</td></tr>
+          </tbody>
+        </table>
+
+        <h2 id="channel">Channel experiments (where DS adds value)</h2>
+        <p>Once Legal approves copy—not whether to comply—test:</p>
+        <ul>
+          <li>Link share vs email-first for completion within 14 days.</li>
+          <li>Reminder cadence before deletion timer (T-30, T-7).</li>
+          <li>Teen-facing clarity on what happens if parent never responds.</li>
+        </ul>
+        <div class="callout">
+          <strong>Boundary:</strong> Never A/B test “consent required vs not” in a regulated state. Optimize paths, not obligations.
+        </div>
+
+        <h2 id="ds-role">What data science should deliver in consent programs</h2>
+        <ul>
+          <li>Funnel SQL that matches Legal’s definitions verbatim.</li>
+          <li>Cohort views by state rollout date—laws do not flip globally on one launch night.</li>
+          <li>Anomaly detection on stuck states (support load predictor).</li>
+        </ul>
+
+        <div class="pm-checklist">
+          <h3>For PMs — launch readiness</h3>
+          <ul>
+            <li>Can you trace one test account through every state in the doc?</li>
+            <li>Does deletion actually remove what Legal says it removes?</li>
+            <li>Is parent verification logged for audit retention?</li>
+          </ul>
+        </div>
+
+        <h2 id="takeaway">Takeaway</h2>
+        <p>Parental consent is unglamorous infrastructure. National importance lives here: statutes mean little if families cannot complete flows on phones they already use. Measure honestly, segment by jurisdiction, and treat completion as a first-class product metric—not a legal footnote.</p>
+
+        <p class="note">Independent industry essay—not a description of any company’s products. Related: <a href="07-age-signals-downstream-protections.html">Age signals and downstream protections</a>.</p>
+      </article>
+      <aside class="toc" aria-label="Table of contents">
+        <h2>On this page</h2>
+        <ol>
+          <li><a href="#state-machine">State machine</a></li>
+          <li><a href="#metrics">Metrics</a></li>
+          <li><a href="#channel">Channel tests</a></li>
+          <li><a href="#takeaway">Takeaway</a></li>
+        </ol>
+      </aside>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>Independent writing · Views are my own</p>
+    <p><a href="../index.html">← All essays</a></p>
+  </footer>
+</body>
+</html>

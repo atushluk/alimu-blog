@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="theme-color" content="#0a6b6b">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Evaluating accessibility beyond WCAG — Alimu Mijiti</title>
+  <meta name="description" content="Human rubrics and AT sessions for alt text and inclusive design at scale.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="page-article">
+  <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+    <div class="header-inner">
+      <div class="site-brand">
+        <p class="site-title"><a href="../index.html">Alimu Mijiti</a></p>
+        <p class="site-tagline">Data science · safety · accessibility · integrity</p>
+      </div>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="../index.html">Writing</a>
+        <a href="../about.html">About</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main">
+    <a class="back-link" href="../index.html">← All essays</a>
+    <div class="article-wrap">
+      <article class="prose">
+        <p class="post-meta">October 2026 · ~10 min read · Accessibility · Evaluation</p>
+        <h1>Evaluating accessibility features beyond WCAG checklists</h1>
+        <p class="subtitle">Passing lint is the floor. Equivalence for assistive-tech users is the ceiling—and lint cannot measure memes.</p>
+
+        <p>Automated scanners catch missing labels and contrast failures. They do not tell you whether an AI-generated description helps a blind teenager understand a joke their friends shared. If your ship gate is only WCAG lint, you will ship **compliant broken experiences**.</p>
+
+        <h2 id="layers">Three layers before calling an accessibility feature “launched”</h2>
+        <ol>
+          <li><strong>CI lint</strong> — fast regression on components (necessary, insufficient).</li>
+          <li><strong>Expert audit</strong> — structured rubric on flows, not only pages.</li>
+          <li><strong>Assistive-tech sessions</strong> — blind/low-vision participants on real devices; severity tags on failures.</li>
+        </ol>
+        <p class="opinion">Skipping layer 3 while celebrating layer 1 is how accessibility becomes a dashboard for engineers, not a experience for users.</p>
+
+        <h2 id="rubric">Alt text rubric (what teams should score)</h2>
+        <table>
+          <thead>
+            <tr><th>Dimension</th><th>Question</th><th>Fail example</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Faithfulness</td><td>Objects/text accurate?</td><td>Invented smile “celebrating”</td></tr>
+            <tr><td>Sufficiency</td><td>Can user join the conversation?</td><td>“Photo” on meme</td></tr>
+            <tr><td>Brevity</td><td>Reasonable read time in feed?</td><td>200-word dump</td></tr>
+            <tr><td>Safety</td><td>No sensitive inference?</td><td>Guessed disability/age</td></tr>
+          </tbody>
+        </table>
+        <p>Aggregate by content stratum—memes, screenshots, portraits—not one global average that hides meme failures.</p>
+
+        <h2 id="settings">Settings features need their own metrics</h2>
+        <p>High contrast and bold text are not “shipped” when a toggle exists. Track adoption among users with accessibility services enabled—not total MAU. “Available to 100M users” is marketing, not measurement.</p>
+
+        <h2 id="org">Organizational lesson</h2>
+        <p>Publish rubrics and failure modes internally (and sanitized externally when allowed). The field advances when engineers share **how** they evaluate, not only **that** they launched.</p>
+
+        <div class="pm-checklist">
+          <h3>For PMs — accessibility ship review</h3>
+          <ul>
+            <li>Who owns severity-1 AT failures post-launch?</li>
+            <li>Is there a golden set rerun on every model release?</li>
+            <li>Do creators know when manual alt beats AI?</li>
+          </ul>
+        </div>
+
+        <p class="note">Independent industry essay—not a description of any company’s products. Related: <a href="01-screen-reader-triggered-alt-text.html">Screen-reader-triggered alt text</a>.</p>
+      </article>
+      <aside class="toc" aria-label="Table of contents">
+        <h2>On this page</h2>
+        <ol>
+          <li><a href="#layers">Three layers</a></li>
+          <li><a href="#rubric">Rubric</a></li>
+          <li><a href="#settings">Settings</a></li>
+        </ol>
+      </aside>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>Independent writing · Views are my own</p>
+    <p><a href="../index.html">← All essays</a></p>
+  </footer>
+</body>
+</html>

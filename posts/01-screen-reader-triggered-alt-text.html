@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="theme-color" content="#0a6b6b">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>When to generate alt text — Alimu Mijiti</title>
+  <meta name="description" content="A production ML view on screen-reader-triggered vs always-on AI alt text for PMs and data scientists.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="page-article">
+  <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+    <div class="header-inner">
+      <div class="site-brand">
+        <p class="site-title"><a href="../index.html">Alimu Mijiti</a></p>
+        <p class="site-tagline">Data science · safety · accessibility · integrity</p>
+      </div>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="../index.html">Writing</a>
+        <a href="../about.html">About</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main">
+    <a class="back-link" href="../index.html">← All essays</a>
+    <div class="article-wrap">
+      <article class="prose" id="article-title">
+        <p class="post-meta">October 2026 · ~12 min read · Accessibility · Production ML</p>
+        <h1>When to generate alt text: screen-reader triggers vs always-on inference</h1>
+        <p class="subtitle">The launch metric is not “images described.” It is whether a blind user can participate in the same conversation as everyone else—without bankrupting your GPU budget.</p>
+
+        <p>If you are a PM shipping “AI accessibility” on a UGC feed, you will be asked for a single slide: <em>we now describe every image.</em> That slide is easy. It is also the wrong optimization target. Accessibility leaders, ML engineers, and counsel are optimizing different things—equivalence, cost, and liability—and a one-size pipeline makes all three unhappy.</p>
+
+        <p>This post is a production-minded view for anyone building on large consumer surfaces: how to architect alt text so it survives legal scrutiny, model upgrades, and the memes your vision model will confidently get wrong.</p>
+
+        <h2 id="wrong-metric">The metric most teams ship by mistake</h2>
+        <p class="opinion">Coverage (% of images with any alt string) is a vanity metric. Equivalence (can the user act on the post?) is the product metric. Confusing the two is how you earn a press cycle and still lose in a screen-reader session.</p>
+        <p>Sighted users infer context from layout, adjacent text, and culture. Screen-reader users get a linear audio channel. A lazy caption—“a person smiling”—can be worse than silence if it crowds out the comment thread or misstates a meme. Your job is not to maximize tokens; it is to minimize <em>wrong</em> tokens under time pressure.</p>
+
+        <h2 id="architectures">Three architectures PMs actually choose among</h2>
+        <table>
+          <thead>
+            <tr><th>Architecture</th><th>When inference runs</th><th>Best for</th><th>Failure mode</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Creator-only</strong></td>
+              <td>Never (manual alt only)</td>
+              <td>High-trust communities, low photo volume</td>
+              <td>Near-zero coverage at scale; fatigue</td>
+            </tr>
+            <tr>
+              <td><strong>Always-on AI</strong></td>
+              <td>Upload or first view for all users</td>
+              <td>Ads, regulated static content, search indexing</td>
+              <td>Cost/latency; junk descriptions on decorative images</td>
+            </tr>
+            <tr>
+              <td><strong>Assistive-tech triggered</strong></td>
+              <td>When AT focuses media and creator alt is empty</td>
+              <td>High-volume UGC photo feeds</td>
+              <td>First-focus delay; client signal privacy review</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>Most short-form products need a <strong>hybrid</strong>: creator text first, triggered AI second, human escalation third—not a global toggle chosen for the all-hands deck.</p>
+
+        <h2 id="trigger">Why screen-reader-triggered generation deserves serious consideration</h2>
+        <p>Deferring inference until VoiceOver, TalkBack, or equivalent accessibility services request description changes the unit economics. You spend GPU cycles where need is <em>demonstrated</em>, not hypothesized across billions of passive views.</p>
+        <ul>
+          <li><strong>Budget for quality:</strong> Lower QPS lets you run a heavier model or a second-pass refine on screenshots and dense text images.</li>
+          <li><strong>Aligns with WCAG spirit:</strong> Equivalence is about users who rely on AT—not about invisible metadata for sighted users.</li>
+          <li><strong>Reduces harm surface:</strong> Fewer unnecessary descriptions means fewer chances to hallucinate gender, race, or emotional state.</li>
+        </ul>
+        <div class="callout">
+          <strong>Non-negotiable:</strong> Triggered AI must never become an excuse to hide the creator alt field. Manual path stays prominent; AI is fallback, not default for creators who can type.
+        </div>
+        <p>Tradeoffs worth flagging in every design review:</p>
+        <ul>
+          <li><strong>Cold-start latency</strong> on first focus—mitigate with async generation, accessible loading announcements, and aggressive caching by <code>media_id</code>.</li>
+          <li><strong>Signal integrity:</strong> “AT active” must be defined with Privacy and Legal; do not fingerprint users beyond policy.</li>
+          <li><strong>Decorative images:</strong> Explicit empty alt (<code>alt=""</code>) still beats wrong AI; train PMs to ship creator UX for “decorative.”</li>
+        </ul>
+
+        <h2 id="always-on">When always-on still wins</h2>
+        <p>Triggers are not a religion. Always-on at upload or first view remains correct when:</p>
+        <ul>
+          <li>Moderation and accessibility share the same vision embedding—you already pay the inference tax.</li>
+          <li>Partner or regulatory commitments require description before publish (some ad and gov surfaces).</li>
+          <li>Search and discovery need text proxies for images regardless of AT.</li>
+        </ul>
+        <p>The mistake is letting Marketing pick one story for all surfaces. Split pipelines by <em>content class</em> and attach different SLAs.</p>
+
+        <h2 id="eval">Evaluation that survives a staff review</h2>
+        <p>Offline CIDEr on COCO will not save you when the 500th meme template arrives. A durable three-layer eval stack:</p>
+        <ol>
+          <li><strong>Automated lint</strong> (missing alt, length caps, blocked terms)—CI gate on UI components.</li>
+          <li><strong>Human rubric</strong> on stratified samples: faithfulness, sufficiency, brevity, safety (1–5 each).</li>
+          <li><strong>Assistive-tech panel</strong> (small, paid, recurring)—severity-tagged failures, not NPS theater.</li>
+        </ol>
+        <p>Report metrics with <em>population and window</em>: “U.S. photo posts, AT-triggered sessions, week of …”—never platform DAU as a proxy for your feature’s reach.</p>
+
+        <div class="pm-checklist">
+          <h3>For PMs — questions before launch</h3>
+          <ul>
+            <li>What happens when creator alt exists but is low quality—override rules?</li>
+            <li>Who owns the error budget when memes regress after a model bump?</li>
+            <li>Is decorative content explicitly supported in creator tools?</li>
+            <li>Does Legal sign off on client AT signals and retention?</li>
+          </ul>
+        </div>
+
+        <h2 id="takeaway">Takeaway</h2>
+        <p>Accessible ML is scheduling, caching, creator UX, and evaluation—not only a checkpoint. The teams that win treat alt text as a <em>system</em>: manual first, conditional AI second, humans for severity-1 misses. That is how you ship equivalence at scale without treating blind users as an afterthought or a line item on a GPU invoice.</p>
+
+        <p class="note">Independent industry essay—not a description of any company’s products. Related: <a href="06-evaluating-accessibility-beyond-wcag.html">Evaluating accessibility beyond WCAG checklists</a>.</p>
+      </article>
+      <aside class="toc" aria-label="Table of contents">
+        <h2>On this page</h2>
+        <ol>
+          <li><a href="#wrong-metric">Wrong metric</a></li>
+          <li><a href="#architectures">Three architectures</a></li>
+          <li><a href="#trigger">AT-triggered</a></li>
+          <li><a href="#always-on">Always-on cases</a></li>
+          <li><a href="#eval">Evaluation</a></li>
+          <li><a href="#takeaway">Takeaway</a></li>
+        </ol>
+      </aside>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p><a href="../index.html">← All posts</a></p>
+    <p>Views are my own.</p>
+  </footer>
+</body>
+</html>

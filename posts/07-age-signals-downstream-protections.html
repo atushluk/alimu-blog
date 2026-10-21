@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="theme-color" content="#0a6b6b">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Age signals and downstream protections — Alimu Mijiti</title>
+  <meta name="description" content="Unified age classification as systems design—calibration, consumers, and harm-weighted errors.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="page-article">
+  <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+    <div class="header-inner">
+      <div class="site-brand">
+        <p class="site-title"><a href="../index.html">Alimu Mijiti</a></p>
+        <p class="site-tagline">Data science · safety · accessibility · integrity</p>
+      </div>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="../index.html">Writing</a>
+        <a href="../about.html">About</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main">
+    <a class="back-link" href="../index.html">← All essays</a>
+    <div class="article-wrap">
+      <article class="prose">
+        <p class="post-meta">October 2026 · ~10 min read · Safety ML · Compliance</p>
+        <h1>Age signals and downstream protections: one model, many safeguards</h1>
+        <p class="subtitle">Age ML is not a leaderboard AUC. It is an API that teen mode, consent, and ads secretly depend on.</p>
+
+        <p>Teams talk about “the age model” as if it were a single number in a notebook. In production it is a <strong>versioned service</strong> with consumers nobody listed until one threshold move breaks teen mode or consent routing in a new jurisdiction. Unified age classification is <strong>platform infrastructure</strong>, not a one-off Kaggle slice.</p>
+
+        <h2 id="distributions">Outputs should be distributions, not cliff edges</h2>
+        <p class="opinion">Hard-thresholding a probabilistic world creates audit nightmares. Ship buckets with confidence, provenance (declared vs inferred), and explicit override hooks for human review.</p>
+        <ul>
+          <li>Policy bands (child / teen / adult) with Legal-defined cut points.</li>
+          <li>Calibration **per region**—global models hide slice failures.</li>
+          <li>Consumer registry: which feature uses which score version since when.</li>
+        </ul>
+
+        <h2 id="eval">Evaluation teams should publish internally</h2>
+        <table>
+          <thead>
+            <tr><th>Error type</th><th>Why it hurts</th><th>Weight in review</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Child classified adult</td><td>COPPA / consent bypass</td><td>Highest</td></tr>
+            <tr><td>Teen classified adult</td><td>Weaker teen defaults</td><td>High</td></tr>
+            <tr><td>Adult classified teen</td><td>Friction, false restrictions</td><td>Medium</td></tr>
+          </tbody>
+        </table>
+        <p>Report recall on under-13 before you report overall accuracy. Executives understand “missed minors” faster than macro-F1.</p>
+
+        <h2 id="shadow">Shadow scoring before threshold politics</h2>
+        <p>Every model bump should run shadow mode against production: same inputs, new scores logged, <strong>no user impact</strong> until PM/Legal sign off on downstream diffs. Document changelogs like API breaking changes—because they are.</p>
+
+        <h2 id="downstream">Downstream map (PM exercise)</h2>
+        <p>Draw one page: age score → teen mode → consent routing → ad personalization → DM restrictions. If DS cannot fill that page, you do not have a unified system—you have a research project.</p>
+
+        <div class="pm-checklist">
+          <h3>For PMs — before changing a threshold</h3>
+          <ul>
+            <li>Which states’ flows depend on this band?</li>
+            <li>What is rollback time if support spikes?</li>
+            <li>Did Legal re-review the consumer list?</li>
+          </ul>
+        </div>
+
+        <p class="note">Independent industry essay—not a description of any company’s products. Related: <a href="04-parental-consent-funnels.html">Parental consent funnels</a>.</p>
+      </article>
+      <aside class="toc" aria-label="Table of contents">
+        <h2>On this page</h2>
+        <ol>
+          <li><a href="#distributions">Distributions</a></li>
+          <li><a href="#eval">Evaluation</a></li>
+          <li><a href="#shadow">Shadow mode</a></li>
+        </ol>
+      </aside>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>Independent writing · Views are my own</p>
+    <p><a href="../index.html">← All essays</a></p>
+  </footer>
+</body>
+</html>

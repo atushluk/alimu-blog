@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="theme-color" content="#0a6b6b">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scheduled time away metrics — Alimu Mijiti</title>
+  <meta name="description" content="How to measure digital boundary tools without overclaiming wellbeing outcomes.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="page-article">
+  <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+    <div class="header-inner">
+      <div class="site-brand">
+        <p class="site-title"><a href="../index.html">Alimu Mijiti</a></p>
+        <p class="site-tagline">Data science · safety · accessibility · integrity</p>
+      </div>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="../index.html">Writing</a>
+        <a href="../about.html">About</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main">
+    <a class="back-link" href="../index.html">← All essays</a>
+    <div class="article-wrap">
+      <article class="prose">
+        <p class="post-meta">October 2026 · ~10 min read · Youth safety · Digital wellbeing</p>
+        <h1>Scheduled time away: what product metrics can and cannot say about wellbeing</h1>
+        <p class="subtitle">Feature retention is not sleep quality. Say what you measured—or say nothing.</p>
+
+        <p>Family pairing tools—scheduled quiet hours, curfews, meditation prompts—sit between parenting, adolescent autonomy, and corporate responsibility. PMs want compelling stats; researchers want causal health outcomes. Data scientists must translate without overclaiming, or you will lose credibility with policy teams exactly when you need them.</p>
+
+        <h2 id="split">Split features, split hypotheses</h2>
+        <p class="opinion">Never bundle “wellbeing lift” across Time Away, curfew nudges, and reflective prompts in one KPI. Each feature has a different user story and a different defensible metric.</p>
+        <table>
+          <thead>
+            <tr><th>Feature</th><th>Hypothesis</th><th>Defensible metric</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Scheduled Time Away</td><td>Families want enforceable off-hours</td><td>Schedule created &amp; active at 7d/30d</td></tr>
+            <tr><td>Night curfew / meditation</td><td>Reduce late-night sessions</td><td>Shift in session-start quantiles</td></tr>
+            <tr><td>Reflective prompts</td><td>Pause before endless scroll</td><td>Prompt shown → user choice logged</td></tr>
+          </tbody>
+        </table>
+
+        <h2 id="98">The “98% kept it on” trap</h2>
+        <p>Press-friendly retention numbers sound like health impact. They usually measure <strong>toggle persistence</strong>, not sleep, anxiety, or safety. Before any external claim, document:</p>
+        <ol>
+          <li>Denominator (which teens, which countries, which app version).</li>
+          <li>Time window (first week vs 90 days).</li>
+          <li>Definition of “retained” (never disabled vs used nightly).</li>
+        </ol>
+        <div class="callout">
+          <strong>Template sentence:</strong> “Among eligible Family Pairing teens in [cohort], [X]% did not disable [feature] within [N] days of activation.” Long, boring, defensible.
+        </div>
+
+        <h2 id="predictive">Predictive overuse models</h2>
+        <p>Models that flag heavy session patterns should feed <strong>suggestions</strong>, not hidden penalties, unless Policy and Legal explicitly allow enforcement. Evaluate with precision on human-labeled sessions and track override rates—users dismissing nudges is signal, not failure.</p>
+
+        <h2 id="law">State law alignment</h2>
+        <p>Scheduled boundary tools increasingly connect to <strong>supervisory-tool statutes</strong> in various U.S. states. Analytics should prove feature availability and adoption in regulated cohorts—not claim anyone “solved teen mental health.”</p>
+
+        <div class="pm-checklist">
+          <h3>For PMs — wellbeing reviews</h3>
+          <ul>
+            <li>Does this metric measure behavior or outcome?</li>
+            <li>Would a researcher accept the cohort definition?</li>
+            <li>Can teens or parents opt out without dark patterns?</li>
+          </ul>
+        </div>
+
+        <h2 id="takeaway">Takeaway</h2>
+        <p>Digital wellbeing earns trust through measurement humility. Families deserve tools and transparency—not headlines that confuse setting retention with health. That discipline is what separates serious safety product teams from checkbox PR.</p>
+
+        <p class="note">Independent industry essay—not a description of any company’s products. Related: <a href="04-parental-consent-funnels.html">Parental consent funnels</a>.</p>
+      </article>
+      <aside class="toc" aria-label="Table of contents">
+        <h2>On this page</h2>
+        <ol>
+          <li><a href="#split">Split features</a></li>
+          <li><a href="#98">Retention trap</a></li>
+          <li><a href="#predictive">Overuse models</a></li>
+          <li><a href="#takeaway">Takeaway</a></li>
+        </ol>
+      </aside>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>Independent writing · Views are my own</p>
+    <p><a href="../index.html">← All essays</a></p>
+  </footer>
+</body>
+</html>

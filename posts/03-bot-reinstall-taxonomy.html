@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="theme-color" content="#0a6b6b">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bots, reinstalls, and loyal returners — Alimu Mijiti</title>
+  <meta name="description" content="A taxonomy and operating model for platform integrity before you tune another bot model.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="page-article">
+  <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+    <div class="header-inner">
+      <div class="site-brand">
+        <p class="site-title"><a href="../index.html">Alimu Mijiti</a></p>
+        <p class="site-tagline">Data science · safety · accessibility · integrity</p>
+      </div>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="../index.html">Writing</a>
+        <a href="../about.html">About</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main">
+    <a class="back-link" href="../index.html">← All essays</a>
+    <div class="article-wrap">
+      <article class="prose">
+        <p class="post-meta">October 2026 · ~11 min read · Trust &amp; safety · Platform integrity</p>
+        <h1>Bots, reinstalls, and loyal returners: a taxonomy for platform integrity</h1>
+        <p class="subtitle">Your “bot model” AUC is useless if Legal, Growth, and Trust &amp; Safety disagree on what a bot is.</p>
+
+        <p>Integrity projects die in the first cross-functional meeting—not because the model is weak, but because four teams use the word <em>bot</em> to mean four different failures. Ads fraud wants incentive abuse. Growth wants clean attribution. Trust &amp; Safety wants harassment at scale. Data science wants a label column.</p>
+
+        <p>Strong integrity programs start with a <strong>written taxonomy</strong> signed by PM and Policy. Without it, teams optimize recall on spam and accidentally punish grandparents who bought a new phone.</p>
+
+        <h2 id="classes">Four classes of “new device” behavior</h2>
+        <table>
+          <thead>
+            <tr><th>Class</th><th>Intent</th><th>Model goal</th><th>Typical error cost</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Malicious automation</td><td>Spam, manipulation, credential abuse</td><td>High-precision block</td><td>FN: platform harm</td></tr>
+            <tr><td>Attribution gaming</td><td>Reinstall loops, bonus farming</td><td>Link identities; policy penalties</td><td>FN: fraud budget leak</td></tr>
+            <tr><td>Benign reinstall</td><td>New device, OS reset</td><td>Do not punish</td><td>FP: support + trust</td></tr>
+            <tr><td>Multi-device loyalty</td><td>Phone + tablet, same human</td><td>Do not dedupe wrongly</td><td>FP: broken subscriptions</td></tr>
+          </tbody>
+        </table>
+        <p class="opinion">If your training data mixes classes 1–2 with 3–4 because “all looked new,” your precision@enforcement is a fiction.</p>
+
+        <h2 id="lanes">Two-lane enforcement (a practical non-negotiable)</h2>
+        <ul>
+          <li><strong>Automated lane:</strong> extreme precision, accept low recall—CAPTCHA, rate limits, shadow holds.</li>
+          <li><strong>Human review lane:</strong> higher recall, never auto-ban without appeal where policy requires it.</li>
+        </ul>
+        <p>PMs often pressure for “more automation” after one viral abuse story. The counterweight is <strong>protected cohort monitoring</strong>: monthly false-positive rate on accounts older than one year with organic history. One bad deploy costs more trust than a thousand bots caught.</p>
+
+        <h2 id="features">Feature families that actually generalize</h2>
+        <p>Favor features you can explain in an appeal packet over vanity graph scores:</p>
+        <ul>
+          <li><strong>Behavioral burstiness</strong> vs human circadian noise.</li>
+          <li><strong>Content homogeneity</strong>—templates, synchronized URLs.</li>
+          <li><strong>Install graph consistency</strong>—without storing prohibited identifiers.</li>
+          <li><strong>Enforcement memory as prior</strong>, not automatic guilt.</li>
+        </ul>
+
+        <h2 id="reinstall">Reinstall is not bot—until it is</h2>
+        <p>Reinstall signals are powerful and dangerous. A teen factory-resetting a hand-me-down phone looks like fraud to a naive model; a bot farm also looks like reinstall. The fix is <strong>separate heads</strong> or calibrated ensembles with explicit reinstall subgraph features—not one “risk score” exported to every team.</p>
+
+        <div class="pm-checklist">
+          <h3>For PMs — integrity roadmap questions</h3>
+          <ul>
+            <li>Which actions are reversible within 24 hours?</li>
+            <li>Who owns false-positive review SLAs?</li>
+            <li>Does Growth know when integrity flags affect attribution?</li>
+            <li>Do we report integrity metrics in the same deck as DAU?</li>
+          </ul>
+        </div>
+
+        <h2 id="public">Why this matters beyond your OKR</h2>
+        <p>Large platforms mediate discourse and commerce. Integrity ML is infrastructure—like email spam filters, but appeals are public and mistakes are screenshot-worthy. Getting taxonomy and lanes right is how engineers serve users who will never know your model existed.</p>
+
+        <p class="note">Independent industry essay—not a description of any company’s products. Related: <a href="08-shadow-mode-and-shipping-trust.html">Shadow mode and shipping trust models</a>.</p>
+      </article>
+      <aside class="toc" aria-label="Table of contents">
+        <h2>On this page</h2>
+        <ol>
+          <li><a href="#classes">Four classes</a></li>
+          <li><a href="#lanes">Two lanes</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#reinstall">Reinstall</a></li>
+          <li><a href="#public">Public interest</a></li>
+        </ol>
+      </aside>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <p>Independent writing · Views are my own</p>
+    <p><a href="../index.html">← All essays</a></p>
+  </footer>
+</body>
+</html>
